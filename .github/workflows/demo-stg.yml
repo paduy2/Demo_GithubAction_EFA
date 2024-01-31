@@ -1,8 +1,8 @@
 name: Deploy to Windows Server
 
 on:
-  push:
-    branches:
+  workflow_dispatch:
+    inputs:
       stg_env:
         description: Environment
         required: true
