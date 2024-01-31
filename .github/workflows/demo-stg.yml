@@ -8,9 +8,10 @@ on:
       - 'main'
 
 jobs:
-  build-and-deploy:
+  build-and-deploy-development:
     runs-on: development  # Specify a self-hosted runner on Windows Server
     environment: stg
+    if: ${{ github.ref == 'refs/heads/main' }}
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
@@ -19,4 +20,24 @@ jobs:
         run: |
           echo "TESTING"
           New-Item -Path "D:\" -Name "TEST_Website" -ItemType Directory
+
+      - name: Print branch name
+        run: |
+          echo "Branch name: ${{ github.ref.replace('refs/', '') }}"
+
+  # build-and-deploy-production:
+  #     runs-on: production  # Specify a self-hosted runner on Windows Server
+  #     environment: stg
+  #     steps:
+  #       - name: Check out repository code
+  #         uses: actions/checkout@v4
+
+  #       - name: Build code
+  #         run: |
+  #           echo "TESTING"
+  #           New-Item -Path "D:\" -Name "TEST_Website" -ItemType Directory
+
+  #       - name: Print branch name
+  #         run: |
+  #           echo "Branch name: ${{ env.GITHUB_REF_NAME }}"
 
