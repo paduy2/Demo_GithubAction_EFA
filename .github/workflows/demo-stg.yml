@@ -19,7 +19,7 @@ jobs:
       - name: Build code
         run: |
           echo "TESTING"
-          New-Item -Path "D:\" -Name "TEST_Website" -ItemType Directory
+          # New-Item -Path "D:\" -Name "TEST_Website" -ItemType Directory
 
       - name: Print branch name
         run: |
