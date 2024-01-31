@@ -1,5 +1,7 @@
 name: Deploy to Windows Server
 
+run-name: 🌿 ${{ github.event.inputs.branch }} 🚀 ${{ github.event.inputs.stg_env }} 💥 ${{ github.actor }}  
+
 on:
   workflow_dispatch:
     inputs:
