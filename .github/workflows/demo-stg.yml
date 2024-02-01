@@ -20,7 +20,8 @@ jobs:
           echo "TESTING"
           pwd
           # New-Item -Path "D:\" -Name "TEST_Website" -ItemType Directory
-
+          C:\windows\system32\inetsrv\appcmd.exe start sites "efadrin-biz"
+          
       - name: Print branch name
         run: |
           echo "Branch name: ${{ github.ref }}"
