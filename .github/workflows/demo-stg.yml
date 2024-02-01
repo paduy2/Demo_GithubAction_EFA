@@ -10,7 +10,7 @@ on:
 jobs:
   build-and-deploy-development:
     runs-on: development  # Specify a self-hosted runner on Windows Server
-    environment: stg
+    # environment: stg
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
