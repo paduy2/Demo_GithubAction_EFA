@@ -18,6 +18,7 @@ jobs:
       - name: Build code
         run: |
           echo "TESTING"
+          pwd
           # New-Item -Path "D:\" -Name "TEST_Website" -ItemType Directory
 
       - name: Print branch name
