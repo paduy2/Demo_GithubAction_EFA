@@ -5,12 +5,30 @@ run-name: 🌿 Development 🚀 FE 💥 ${{ github.actor }}
 on:
  push:
     branches:
-      - '[FE]_.*_ticket'
+      - 'main'
 
 jobs:
   build-and-deploy-development:
     runs-on: development  # Specify a self-hosted runner on Windows Server
     environment: stg
+    if: ${{ github.ref == 'refs/heads/main' }}
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: Build code
+        run: |
+          echo "TESTING"
+          # New-Item -Path "D:\" -Name "TEST_Website" -ItemType Directory
+
+      - name: Print branch name
+        run: |
+          echo "Branch name: ${{ github.ref }}"
+
+    build-and-deploy-development-fe:
+    runs-on: development  # Specify a self-hosted runner on Windows Server
+    environment: stg
+    # if: ${{ github.ref == 'refs/heads/FE_test_ticket' }}
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
