@@ -1,4 +1,4 @@
-name: Deploy to Windows Server
+name: Deploy to test Windows Server
 
 run-name: 🌿 Development 🚀 FE 💥 ${{ github.actor }}  
 
@@ -21,6 +21,7 @@ jobs:
           echo "TESTING"
           # New-Item -Path "D:\" -Name "TEST_Website" -ItemType Directory
           # C:\windows\system32\inetsrv\appcmd.exe start sites "efadrin-biz"
+          echo "$GITHUB_PATH "
 
       - name: Print branch name
         run: |

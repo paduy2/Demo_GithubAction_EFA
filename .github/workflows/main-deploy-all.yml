@@ -1,0 +1,76 @@
+name: Deploy All Projects to IIS
+
+on:
+  push:
+    branches:
+      - "main123"
+#Deploy BE source to IIS Windows Server
+
+jobs:
+  build-and-deploy-BE:
+    runs-on: self-hosted
+    environment: development
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build source
+        shell: powershell
+        run: |
+          cd .\backend
+          dotnet build
+
+      - name: Stop IIS Site
+        shell: powershell
+        run: |
+          Start-Process powershell -ArgumentList "-Command Stop-IISSite -Name ${{ vars.SITE_NAME }} -Force" -Verb RunAs
+
+      - name: Publish source
+        shell: powershell
+        run: |
+          cd .\backend
+          dotnet publish ${{ vars.BE_PROJECT_NAME }} -o ${{ vars.WEB_SOURCE_PATH }}\${{ vars.BE_WEB_SOURCE_PATH }}
+
+      - name: Start IIS Site
+        shell: powershell
+        run: |
+          Start-Process powershell -ArgumentList "-Command Start-IISSite -Name ${{ vars.SITE_NAME }} -Force" -Verb RunAs
+
+  #Deploy FE source to IIS Windows Server
+
+  build-and-deploy-FE:
+    runs-on: self-hosted
+    environment: development
+    strategy:
+      matrix:
+        node-version: ["18.x"]
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+          cache-dependency-path: .\frontend\package-lock.json
+      - name: Building source to deploy
+        run: |
+          cd .\frontend
+          npm install
+          npm run build
+
+      - name: Stopping IIS server
+        shell: powershell
+        run: |
+          Start-Process powershell -ArgumentList "-Command Stop-IISSite -Name ${{ vars.SITE_NAME }} -Force" -Verb RunAs
+
+      - name: Copying source deployed to production
+        run: |
+          Copy-Item .\frontend\dist\* -Destination "${{ vars.WEB_SOURCE_PATH }}\${{ vars.FE_WEB_SOURCE_PATH }}" -Force -Recurse
+          cd ${{ vars.WEB_SOURCE_PATH }}\${{ vars.FE_WEB_SOURCE_PATH }}
+          npm install
+
+      - name: Starting IIS server
+        shell: powershell
+        run: |
+          Start-Process powershell -ArgumentList "-Command Start-IISSite -Name ${{ vars.SITE_NAME }} -Force" -Verb RunAs
