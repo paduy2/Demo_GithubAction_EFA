@@ -5,12 +5,13 @@ run-name: 🌿 Development 🚀 FE 💥 ${{ github.actor }}
 on:
  push:
     branches:
-      - 'FE_*_ticket'
+      - 'main'
 
 jobs:
   build-and-deploy-development:
     runs-on: development  # Specify a self-hosted runner on Windows Server
-    # environment: stg
+    environment: stg
+    if: ${{ github.ref == 'refs/heads/main' }}
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
@@ -18,22 +19,29 @@ jobs:
       - name: Build code
         run: |
           echo "TESTING"
-          pwd
           # New-Item -Path "D:\" -Name "TEST_Website" -ItemType Directory
-
-      - name: Stop IIS Site
-        shell: powershell
-        run: |
-          Start-Process powershell -ArgumentList "-Command Stop-IISSite -Name 'efadrin-biz' -Force" -Verb RunAs
+          # C:\windows\system32\inetsrv\appcmd.exe start sites "efadrin-biz"
 
       - name: Print branch name
         run: |
           echo "Branch name: ${{ github.ref }}"
-      
-      - name: Start IIS Site
-        shell: powershell
-        run: |
-          Start-Process powershell -ArgumentList "-Command Start-IISSite -Name 'efadrin-biz' -Force" -Verb RunAs
+
+    # build-and-deploy-development-fe:
+    # runs-on: development  # Specify a self-hosted runner on Windows Server
+    # environment: stg
+    # # if: ${{ github.ref == 'refs/heads/FE_test_ticket' }}
+    # steps:
+    #   - name: Check out repository code
+    #     uses: actions/checkout@v4
+
+    #   - name: Build code
+    #     run: |
+    #       echo "TESTING"
+    #       # New-Item -Path "D:\" -Name "TEST_Website" -ItemType Directory
+
+    #   - name: Print branch name
+    #     run: |
+    #       echo "Branch name: ${{ github.ref }}"
 
   # build-and-deploy-production:
   #     runs-on: production  # Specify a self-hosted runner on Windows Server
