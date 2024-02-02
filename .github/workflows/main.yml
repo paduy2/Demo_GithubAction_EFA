@@ -16,9 +16,11 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v4
 
-      - uses: crazy-max/ghaction-chocolatey@v3
-        with:
-          args: -h
+      - name: Stop IIS Site
+        shell: powershell
+        run: |
+          Start-Process powershell -ArgumentList "-Command 'Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString(https://community.chocolatey.org/install.ps1))' " -Verb RunAs
+
 
       - name: Build code
         run: |
