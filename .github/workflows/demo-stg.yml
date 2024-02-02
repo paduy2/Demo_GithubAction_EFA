@@ -29,6 +29,11 @@ jobs:
       - name: Print branch name
         run: |
           echo "Branch name: ${{ github.ref }}"
+      
+      - name: Start IIS Site
+        shell: powershell
+        run: |
+          Start-Process powershell -ArgumentList "-Command Start-IISSite -Name 'efadrin-biz' -Force" -Verb RunAs
 
   # build-and-deploy-production:
   #     runs-on: production  # Specify a self-hosted runner on Windows Server
