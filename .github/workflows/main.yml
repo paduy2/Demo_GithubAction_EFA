@@ -16,16 +16,16 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v4
 
-      - name: Install choco
-        run: |
-          Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+      # - name: Install choco
+      #   run: |
+      #     Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
         
       - name: Build code
         run: |
           echo "TESTING"
           # New-Item -Path "D:\" -Name "TEST_Website" -ItemType Directory
           # C:\windows\system32\inetsrv\appcmd.exe start sites "efadrin-biz"
-          echo "$GITHUB_PATH"
+          choco --version
 
       - name: Print branch name
         run: |
