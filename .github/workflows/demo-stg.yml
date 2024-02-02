@@ -20,7 +20,11 @@ jobs:
           echo "TESTING"
           pwd
           # New-Item -Path "D:\" -Name "TEST_Website" -ItemType Directory
-          C:\windows\system32\inetsrv\appcmd.exe start sites "efadrin-biz"
+
+      - name: Stop IIS Site
+        shell: powershell
+        run: |
+          Start-Process powershell -ArgumentList "-Command Stop-IISSite -Name 'efadrin-biz' -Force" -Verb RunAs
 
       - name: Print branch name
         run: |
