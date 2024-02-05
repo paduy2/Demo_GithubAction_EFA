@@ -25,6 +25,7 @@ jobs:
           cd .\python-3.12.1-embed-amd64
           pwd
           python --version
+          echo " ${{ github.base_ref }} HERE my PR message"
 
       - name: Print branch name
         run: |
