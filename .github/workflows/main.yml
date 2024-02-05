@@ -3,9 +3,9 @@ name: Deploy to test Windows Server
 run-name: 🌿 Development 🚀 FE 💥 ${{ github.actor }}  
 
 on:
- push:
-    branches:
-      - 'main'
+ pull_request:
+    types:
+      - closed
 
 jobs:
   build-and-deploy-development:
