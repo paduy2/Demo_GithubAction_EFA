@@ -1,6 +1,6 @@
 name: Deploy to test Windows Server
 
-run-name: 🌿 Development 🚀 FE 💥 ${{ github.actor }}  
+run-name: 🌿 Development 🚀 ALL BE,FE & AI 💥 ${{ github.actor }}  
 
 on:
  pull_request:
