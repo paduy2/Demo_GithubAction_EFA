@@ -35,7 +35,7 @@ jobs:
   build-and-deploy-FE-development:
     runs-on: development  # Specify a self-hosted runner on Windows Server111
     environment: stg
-    if: ${{ startsWith(github.head_ref, 'FE_') }}
+    if: ${{ startsWith(github.head_ref, 'FE_') }} && ${{ startsWith(github.base_ref, 'main') }}
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
