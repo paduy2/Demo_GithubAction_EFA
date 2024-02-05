@@ -30,7 +30,7 @@ jobs:
         run: |
           echo "Branch name: ${{ github.ref }}"
 
-    # build-and-deploy-development-fe:
+    # build-and-deploy-development-fete:
     # runs-on: development  # Specify a self-hosted runner on Windows Server
     # environment: stg
     # # if: ${{ github.ref == 'refs/heads/FE_test_ticket' }}
