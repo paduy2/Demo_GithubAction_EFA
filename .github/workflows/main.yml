@@ -26,6 +26,7 @@ jobs:
           pwd
           python --version
           echo " ${{ github.base_ref }} HERE my PR message"
+          echo " ${{ github.head_ref }} HERE my PR message"
 
       - name: Print branch name
         run: |
