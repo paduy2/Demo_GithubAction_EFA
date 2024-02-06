@@ -1,15 +1,17 @@
 name: Deploy All Projects to IIS
 
 on:
-  push:
+ push:
     branches:
-      - "main123"
+      - 'FE_*_ticket123123'
+
 #Deploy BE source to IIS Windows Server
 
 jobs:
   build-and-deploy-BE:
     runs-on: self-hosted
     environment: development
+    if: ${{ startsWith(github.head_ref, 'BE_') }} && ${{ startsWith(github.base_ref, 'main') }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -23,7 +25,8 @@ jobs:
       - name: Stop IIS Site
         shell: powershell
         run: |
-          Start-Process powershell -ArgumentList "-Command Stop-IISSite -Name ${{ vars.SITE_NAME }} -Force" -Verb RunAs
+          Stop-WebSite -Name ${{ vars.SITE_NAME }}
+          Start-Sleep -s 5
 
       - name: Publish source
         shell: powershell
@@ -34,13 +37,15 @@ jobs:
       - name: Start IIS Site
         shell: powershell
         run: |
-          Start-Process powershell -ArgumentList "-Command Start-IISSite -Name ${{ vars.SITE_NAME }} -Force" -Verb RunAs
+          Start-WebSite -Name  ${{ vars.SITE_NAME }}
+          Start-Sleep -s 5
 
   #Deploy FE source to IIS Windows Server
 
   build-and-deploy-FE:
     runs-on: self-hosted
     environment: development
+    if: ${{ startsWith(github.head_ref, 'FE_') }} && ${{ startsWith(github.base_ref, 'main') }}
     strategy:
       matrix:
         node-version: ["18.x"]
@@ -62,7 +67,8 @@ jobs:
       - name: Stopping IIS server
         shell: powershell
         run: |
-          Start-Process powershell -ArgumentList "-Command Stop-IISSite -Name ${{ vars.SITE_NAME }} -Force" -Verb RunAs
+          Stop-WebSite -Name ${{ vars.SITE_NAME }}
+          Start-Sleep -s 5
 
       - name: Copying source deployed to production
         run: |
@@ -73,4 +79,39 @@ jobs:
       - name: Starting IIS server
         shell: powershell
         run: |
-          Start-Process powershell -ArgumentList "-Command Start-IISSite -Name ${{ vars.SITE_NAME }} -Force" -Verb RunAs
+          Start-WebSite -Name ${{ vars.SITE_NAME }}
+          Start-Sleep -s 5
+
+  #Deploy AI source to IIS Windows Server
+
+  build-and-deploy-AI:
+    runs-on: self-hosted
+    environment: development
+    if: ${{ startsWith(github.head_ref, 'AI_') }} && ${{ startsWith(github.base_ref, 'main') }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test
+        shell: powershell
+        run: |
+          python --version
+      - name: Stopping IIS server
+        run: |
+          Stop-WebSite -Name ${{ vars.SITE_NAME }}
+          Start-Sleep -s 5
+      - name: Copying to web deploy folder
+        run: |
+          Copy-Item .\nlp_model\* -Destination "${{ vars.WEB_SOURCE_PATH }}\${{ vars.AI_WEB_SOURCE_PATH }}" -Force -Recurse
+      - name: Make some configurations
+        run: |
+          cd ${{ vars.WEB_SOURCE_PATH }}\${{ vars.AI_WEB_SOURCE_PATH }}
+          pwd
+          python -m pip install --upgrade pip
+          echo "Creating virtual environment...."
+          python -m venv pyvenv
+          pyvenv\Scripts\activate
+          echo "Install packages...."
+          pip install -r requirements.txt
+      - name: Starting IIS server
+        run: |
+          Start-WebSite -Name ${{ vars.SITE_NAME }}
+          Start-Sleep -s 5
