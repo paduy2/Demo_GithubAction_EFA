@@ -1,21 +1,20 @@
 name: Deploy to test Windows Server
 
-run-name: 🌿 Development 🚀 ALL BE,FE & AI 💥 ${{ github.actor }}  
+run-name: 🌿 Development 🚀 ALL BE,FE & AI 💥 ${{ github.actor }}
 
 on:
- pull_request:
+  pull_request:
     types:
       - closed
 
 jobs:
   build-and-deploy-development:
-    runs-on: development  # Specify a self-hosted runner on Windows Server111
+    runs-on: development # Specify a self-hosted runner on Windows Server111
     environment: stg
     if: ${{ github.head_ref == 'refs/heads/main' }} && ${{ contains(github.base_ref, 'main') }}
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
-
 
       - name: Build code
         run: |
@@ -33,13 +32,12 @@ jobs:
           echo "Branch name: ${{ github.ref }}"
 
   build-and-deploy-FE-development:
-    runs-on: development  # Specify a self-hosted runner on Windows Server111
+    runs-on: development # Specify a self-hosted runner on Windows Server111
     environment: stg
     if: ${{ startsWith(github.head_ref, 'FE_') }} && ${{ contains(github.base_ref, 'main') }}
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
-
 
       - name: Build code
         run: |
@@ -88,7 +86,3 @@ jobs:
   #       - name: Print branch name
   #         run: |
   #           echo "Branch name: ${{ env.GITHUB_REF_NAME }}"
-
-
-  
-
