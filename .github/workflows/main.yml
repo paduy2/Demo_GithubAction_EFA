@@ -10,7 +10,7 @@ jobs:
   build-and-deploy-development:
     runs-on: development # Specify a self-hosted runner on Windows Server111
     environment: stg
-    if: ${{ startsWith(github.head_ref, 'BE_') && contains(github.base_ref, 'main') }}
+    # if: ${{ startsWith(github.head_ref, 'BE_') && contains(github.base_ref, 'main') }}
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
