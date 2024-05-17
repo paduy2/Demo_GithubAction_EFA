@@ -4,8 +4,7 @@ run-name: 🌿 Development 🚀 ALL BE,FE & AI 💥 ${{ github.actor }}
 
 on:
   pull_request:
-    types:
-      - closed
+    types: [opened, reopened, synchronize, closed]
 
 jobs:
   build-and-deploy-development:
@@ -21,9 +20,10 @@ jobs:
           echo "TESTING"
           # New-Item -Path "D:\" -Name "TEST_Website" -ItemType Directory
           # C:\windows\system32\inetsrv\appcmd.exe start sites "efadrin-biz"
-          cd .\python-3.12.1-embed-amd64
-          pwd
-          python --version
+          # cd .\python-3.12.1-embed-amd64
+          # pwd
+          # python --version
+          git diff --name-only
           echo " ${{ github.base_ref }} HERE my PR message"
           echo " ${{ github.head_ref }} HERE my PR message"
 
