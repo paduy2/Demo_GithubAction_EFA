@@ -31,28 +31,28 @@ jobs:
         run: |
           echo "Branch name: ${{ github.ref }}"
 
-  build-and-deploy-FE-development:
-    runs-on: development # Specify a self-hosted runner on Windows Server111
-    environment: stg
-    if: ${{ startsWith(github.head_ref, 'FE_') && contains(github.base_ref, 'main') }}
-    steps:
-      - name: Check out repository code
-        uses: actions/checkout@v4
+  # build-and-deploy-FE-development:
+  #   runs-on: development # Specify a self-hosted runner on Windows Server111
+  #   environment: stg
+  #   if: ${{ startsWith(github.head_ref, 'FE_') && contains(github.base_ref, 'main') }}
+  #   steps:
+  #     - name: Check out repository code
+  #       uses: actions/checkout@v4
 
-      - name: Build code
-        run: |
-          echo "TESTING"
-          # New-Item -Path "D:\" -Name "TEST_Website" -ItemType Directory
-          # C:\windows\system32\inetsrv\appcmd.exe start sites "efadrin-biz"
-          cd .\python-3.12.1-embed-amd64
-          pwd
-          python --version
-          echo " ${{ github.base_ref }} HERE my PR message"
-          echo " ${{ github.head_ref }} HERE my PR message"
+  #     - name: Build code
+  #       run: |
+  #         echo "TESTING"
+  #         # New-Item -Path "D:\" -Name "TEST_Website" -ItemType Directory
+  #         # C:\windows\system32\inetsrv\appcmd.exe start sites "efadrin-biz"
+  #         cd .\python-3.12.1-embed-amd64
+  #         pwd
+  #         python --version
+  #         echo " ${{ github.base_ref }} HERE my PR message"
+  #         echo " ${{ github.head_ref }} HERE my PR message"
 
-      - name: Print branch name
-        run: |
-          echo "Branch name: ${{ github.ref }}"
+  #     - name: Print branch name
+  #       run: |
+  #         echo "Branch name: ${{ github.ref }}"
 
     # build-and-deploy-development-fete:
     # runs-on: development  # Specify a self-hosted runner on Windows Server
